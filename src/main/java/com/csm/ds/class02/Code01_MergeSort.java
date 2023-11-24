@@ -2,6 +2,10 @@ package com.csm.ds.class02;
 
 import java.util.Arrays;
 
+/**
+ * 归并排序时间复杂度N*(logN)
+ */
+
 public class Code01_MergeSort {
     public static void process(int[] arr, int L, int R) {
         if (L == R) {//只有一个元素了，结束递归
@@ -38,7 +42,10 @@ public class Code01_MergeSort {
     }
 
     public static void mergeSort(int[] arr) {
-        process(arr, 0, arr.length - 1);
+        if (arr == null || arr.length < 2){
+            return;
+        }
+            process(arr, 0, arr.length - 1);
     }
 
     public static void main(String[] args) {
