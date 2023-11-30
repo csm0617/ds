@@ -5,22 +5,34 @@ import java.util.Arrays;
 public class Code08_SortArrayDistanceLessK {
     /**
      * 最小K排序，时间复杂度n*logK，因为k远小于数组的长度，时间复杂度近似于O（n）
+     *
      * @param arr
      * @param k
      */
     public static void sortArrayDistanceLessK(int[] arr, int k) {
         Heap heap = new Heap(k, false);
-        for (int i = 0; i < k; i++) {
-            heap.offer(arr[i]);
+        //先让前K个数最小堆化
+//        for (int i = 0; i < k; i++) {
+//            heap.offer(arr[i]);
+//        }
+        int index = 0;
+        for (; index < Math.min(arr.length, k); index++) {
+            heap.offer(arr[index]);
         }
+
         System.out.println(heap);
-        for (int i = k; i < arr.length; i++) {
-            arr[i - k] = heap.poll();
-            heap.offer(arr[i]);
-            System.out.println(heap);
-        }
-        for (int i = arr.length - k; i < arr.length; i++) {
+        //因为每个数在k的范围内，近乎有序。所以最小堆化以后堆顶元素就排好序了。
+        //每次出队堆顶元素的，并在数组相应位置赋值，再把这入堆新元素，重新堆化
+        int i = 0;
+        System.out.println(index);
+        for (; index < arr.length; index++, i++) {
             arr[i] = heap.poll();
+            heap.offer(arr[index]);
+//            System.out.println(heap);
+        }
+        //遍历完数组以后，剩下最大的七个数，依次把堆顶元素出队
+        while (!heap.isEmpty()) {
+            arr[i++] = heap.poll();
         }
         System.out.println(Arrays.toString(arr));
 
@@ -46,6 +58,7 @@ public class Code08_SortArrayDistanceLessK {
     public static void main(String[] args) {
 //        System.out.println(Arrays.toString(creatArrayDistanceLessK(6)));
         int[] arr = creatArrayDistanceLessK(6);
+        System.out.println(Arrays.toString(arr));
         sortArrayDistanceLessK(arr, 6);
     }
 
